@@ -1,34 +1,34 @@
 """
 utilisation d'argparse pour un script Python qui
 manipule des fichiers texte en fonction d'options spécifiées en ligne de commande.
- Ce script permet de lire, écrire ou concaténer des fichiers texte
+ Ce script permet de lire, écrire ou concaténer des fichiers texte et les vider
 """
 
 import argparse
 
 
-def lire_fichier(racine):
+def lire_fichier(racine_un):
     try:
-        with open(racine, 'r') as file:
+        with open(racine_un, 'r') as file:
             contenu = file.read()
             return contenu  # Renvoie le contenu du fichier
     except FileNotFoundError:
-        print(f"Le fichier '{racine}' n'existe pas")
+        return f"Le fichier '{racine_un}' n'existe pas"
 
 
-def ecrire_fichier(chemin_fichier, contenu):
+def ecrire_fichier(racine_deux, contenu):
     try:
-        with open(chemin_fichier, 'a') as file:
+        with open(racine_deux, 'a') as file:
             file.write(contenu)
-            return f"Le contenu a bien été écrit dans '{chemin_fichier}'"
+            return f"Le contenu a bien été écrit dans '{racine_deux}'"
     except FileNotFoundError:
-        return f"Le fichier '{chemin_fichier}' n'existe pas"
+        return f"Le fichier '{racine_deux}' n'existe pas"
 
 
-def concatener_fichiers(chemin_fichiers, fichier_destination):
+def concatener_fichiers(racine_trois, fichier_destination):
     try:
         with open(fichier_destination, 'a') as destination:
-            for fichier in chemin_fichiers:
+            for fichier in racine_trois:
                 try:
                     with open(fichier, 'r') as source:
                         contenu = source.read()
@@ -43,10 +43,19 @@ def concatener_fichiers(chemin_fichiers, fichier_destination):
         return f"Erreur d'entrée/sortie lors de l'ouverture du fichier de destination '{fichier_destination}': {e}"
 
 
-def main():
-    parser = argparse.ArgumentParser(description='Gestionnaire de fichiers texte')
+def vider_fichier(racine_quatre):
+    try:
+        with open(racine_quatre, 'w') as file:
+            file.write('')
+        return f"Contenu du fichier '{racine_quatre}' vidé."
+    except FileNotFoundError:
+        return f"Le fichier '{racine_quatre}' n'existe pas."
 
-    parser.add_argument('action', choices=['lire', 'ecrire', 'concatener'], help='Action à effectuer')
+
+def main():
+    parser = argparse.ArgumentParser(description='manipulation de fichier')
+
+    parser.add_argument('action', choices=['lire', 'ecrire', 'concatener', 'vider'], help='Action à effectuer')
     parser.add_argument('fichiers', nargs='*', help='Fichier(s) à utiliser')
     parser.add_argument('--destination', help='Chemin du fichier de destination (pour concatener)')
 
@@ -56,16 +65,14 @@ def main():
         for fichier in args.fichiers:
             print(lire_fichier(fichier))
     elif args.action == 'ecrire':
-        if len(args.fichiers) != 1:
-            print("Veuillez fournir un seul fichier pour écrire")
-        else:
-            contenu = input("Entrez le contenu à écrire : ")
-            print(ecrire_fichier(args.fichiers[0], contenu))
+        # Votre code pour l'écriture dans un fichier
+        pass
     elif args.action == 'concatener':
-        if not args.destination:
-            print("Veuillez spécifier un fichier de destination pour la concaténation")
-        else:
-            print(concatener_fichiers(args.fichiers, args.destination))
+        # Votre code pour concaténer des fichiers
+        pass
+    elif args.action == 'vider':
+        for fichier in args.fichiers:
+            vider_fichier(fichier)
 
 
 if __name__ == '__main__':
