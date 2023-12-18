@@ -8,6 +8,14 @@ import argparse
 
 
 def lire_fichier(racine_un):
+
+    """
+    Pre :
+    Le fichier spécifié par racine_un doit exister sur le système de fichiers.
+    Post :
+    Si le fichier existe, la fonction lit et retourne son contenu.
+    Si le fichier n'existe pas, la fonction renvoie un message indiquant que le fichier n'a pas été trouvé.
+    """
     try:
         with open(racine_un, 'r') as file:
             contenu = file.read()
@@ -17,6 +25,15 @@ def lire_fichier(racine_un):
 
 
 def ecrire_fichier(racine_deux, contenu):
+
+    """
+
+    Pre :
+    Le fichier spécifié par racine_deux doit être accessible en écriture sur le système de fichiers.
+    Post :
+    Si le fichier existe et peut être ouvert en mode écriture, la fonction écrit le contenu passé en paramètre dans le fichier spécifié et renvoie un message de confirmation.
+    Si le fichier n'existe pas, la fonction renvoie un message indiquant que le fichier n'a pas été trouvé.
+    """
     try:
         with open(racine_deux, 'a') as file:
             file.write(contenu)
@@ -26,6 +43,17 @@ def ecrire_fichier(racine_deux, contenu):
 
 
 def concatener_fichiers(racine_trois, fichier_destination):
+
+    """
+
+    Pre :
+    Chaque chemin de fichier dans la liste racine_trois doit pointer vers un fichier existant.
+    Le fichier spécifié par fichier_destination doit être accessible en écriture sur le système de fichiers.
+    Post :
+    Si tous les fichiers spécifiés dans racine_trois existent et peuvent être ouverts en lecture, leur contenu est concaténé dans le fichier spécifié par fichier_destination, avec un saut de ligne ajouté à la fin de chaque fichier.
+    Si un fichier dans racine_trois n'est pas trouvé, un message est imprimé pour indiquer son absence.
+    Si une erreur d'entrée/sortie survient pendant la lecture ou l'écriture des fichiers, un message d'erreur approprié est renvoyé.
+     """
     try:
         with open(fichier_destination, 'a') as destination:
             for fichier in racine_trois:
@@ -44,6 +72,16 @@ def concatener_fichiers(racine_trois, fichier_destination):
 
 
 def vider_fichier(racine_quatre):
+
+    """
+        Pre :
+        racine_quatre doit spécifier un chemin vers un fichier existant ou non existant.
+        Le fichier spécifié par racine_quatre doit être accessible en écriture sur le système de fichiers.
+        Post :
+
+        Si le fichier spécifié par racine_quatre existe, son contenu est vidé, et un message confirmant cette opération est renvoyé.
+        Si le fichier spécifié par racine_quatre n'existe pas, un message est renvoyé pour indiquer son absence.
+    """
     try:
         with open(racine_quatre, 'w') as file:
             file.write('')
