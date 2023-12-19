@@ -101,17 +101,24 @@ def main():
 
     if args.action == 'lire':
         for fichier in args.fichiers:
-            print(lire_fichier(fichier))
+            if os.path.exists(fichier):
+                print(lire_fichier(fichier))
+            else:
+                print(f"Erreur : le fichier '{fichier}' n'a pas été trouvé.")
     elif args.action == 'ecrire':
-        # Votre code pour l'écriture dans un fichier
-        pass
+        if len(args.fichiers) != 1 or not os.path.exists(args.fichiers[0]):
+            print("Erreur : veuillez spécifier un fichier valide pour l'écriture.")
+        else:
+            contenu = input("Entrez le contenu à écrire : ")
+            print(ecrire_fichier(args.fichiers[0], contenu))
     elif args.action == 'concatener':
-        # Votre code pour concaténer des fichiers
-        pass
+        if not args.destination or len(args.fichiers) < 2 or any(not os.path.exists(f) for f in args.fichiers):
+            print("Erreur : veuillez spécifier au moins deux fichiers existants et un fichier de destination.")
+        else:
+            print(concatener_fichiers(args.fichiers, args.destination))
     elif args.action == 'vider':
         for fichier in args.fichiers:
-            vider_fichier(fichier)
-
-
-if __name__ == '__main__':
-    main()
+            if os.path.exists(fichier):
+                print(vider_fichier(fichier))
+            else:
+                print(f"Erreur : le fichier '{fichier}' n'a pas été trouvé.")
